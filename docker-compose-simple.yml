@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # PostgreSQL - Main database
+  postgres:
+    image: postgres:15
+    container_name: crypto_postgres
+    environment:
+      POSTGRES_USER: crypto_user
+      POSTGRES_PASSWORD: crypto_pass
+      POSTGRES_DB: crypto_data
+      POSTGRES_HOST_AUTH_METHOD: md5
+      POSTGRES_INITDB_ARGS: "--auth-host=md5"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init:/docker-entrypoint-initdb.d
+    networks:
+      - crypto_network
+    command: |
+      postgres -c listen_addresses='*' 
+               -c max_connections=200
+               -c shared_buffers=256MB
+               -c effective_cache_size=1GB
+
+  # Redis - Cache
+  redis:
+    image: redis:7.0-alpine
+    container_name: crypto_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - crypto_network
+
+  # ClickHouse - Time series database  
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.8
+    container_name: crypto_clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    networks:
+      - crypto_network
+
+
+
+volumes:
+  postgres_data:
+  clickhouse_data:
+
+
+networks:
+  crypto_network:
+    driver: bridge
