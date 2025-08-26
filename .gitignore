@@ -57,8 +57,11 @@ logs/
 *.log
 
 # Database
-*.db
+# *.db - comentado para permitir crypto_warehouse.db
 *.sqlite3
+
+# Permitir base de dados específica
+!src/crypto_warehouse.db
 
 # Airflow
 airflow.cfg
