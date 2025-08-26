@@ -192,7 +192,7 @@ def main():
         print("\n4. Inserindo dados no banco...")
         if insert_data(coins_data, global_data):
             print("\n🎉 SUCESSO! Todos os sistemas funcionando!")
-            print("   Agora você pode acessar o dashboard:")
+            print("   Dashboard disponível em:")
             print("   http://localhost:8501")
         else:
             print("❌ Falha ao inserir dados")

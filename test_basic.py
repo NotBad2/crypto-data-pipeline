@@ -31,9 +31,7 @@ def main():
     print("🎉 Basic setup completed! Next steps:")
     print("1. Copy .env.example to .env and configure your API keys")
     print("2. Install remaining dependencies: pip install -r requirements.txt")
-    print("3. Run 'docker-compose up -d' to start services")
-    print("4. Access Airflow at http://localhost:8080")
-    print("5. Access Grafana at http://localhost:3000")
+    print("3. Run your Streamlit application: streamlit run src/dashboard/crypto_app_unified.py")
 
 
 if __name__ == "__main__":

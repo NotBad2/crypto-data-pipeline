@@ -163,8 +163,7 @@ class CoinGeckoClient(BaseAPIClient):
             Fear & Greed Index data
         """
         logger.info("Fetching Fear & Greed Index")
-        # Note: This might require a different endpoint or external API
-        # For now, we'll implement a placeholder
+        # Alternative Fear & Greed Index endpoint implementation pending
         return {'message': 'Fear & Greed Index endpoint to be implemented'}
     
     def get_trending_coins(self) -> Dict[str, Any]:

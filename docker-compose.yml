@@ -54,99 +54,7 @@ services:
     networks:
       - crypto-network
 
-  # Grafana for visualization
-  grafana:
-    image: grafana/grafana:10.0.0
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./dashboards:/etc/grafana/provisioning/dashboards
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - crypto-network
 
-  # Apache Airflow Init
-  airflow-init:
-    image: apache/airflow:2.7.0-python3.11
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://crypto_user:crypto_pass@postgres:5432/crypto_data
-      - AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here
-      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
-      - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW_UID=50000
-      - AIRFLOW_GID=0
-    volumes:
-      - ./dags:/opt/airflow/dags
-      - ./src:/opt/airflow/src
-      - airflow_logs:/opt/airflow/logs
-      - ./data:/opt/airflow/data
-    depends_on:
-      - postgres
-    command: >
-      bash -c "
-        airflow db init &&
-        airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
-      "
-    networks:
-      - crypto-network
-
-  # Apache Airflow Webserver
-  airflow-webserver:
-    image: apache/airflow:2.7.0-python3.11
-    command: webserver
-    depends_on:
-      - postgres
-      - airflow-init
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://crypto_user:crypto_pass@postgres:5432/crypto_data
-      - AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here
-      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
-      - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW_UID=50000
-      - AIRFLOW_GID=0
-    volumes:
-      - ./dags:/opt/airflow/dags
-      - ./src:/opt/airflow/src
-      - airflow_logs:/opt/airflow/logs
-      - ./data:/opt/airflow/data
-    ports:
-      - "8080:8080"
-    networks:
-      - crypto-network
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Apache Airflow Scheduler
-  airflow-scheduler:
-    image: apache/airflow:2.7.0-python3.11
-    command: scheduler
-    depends_on:
-      - postgres
-      - airflow-init
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://crypto_user:crypto_pass@postgres:5432/crypto_data
-      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
-      - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW_UID=50000
-      - AIRFLOW_GID=0
-    volumes:
-      - ./dags:/opt/airflow/dags
-      - ./src:/opt/airflow/src
-      - airflow_logs:/opt/airflow/logs
-      - ./data:/opt/airflow/data
-    networks:
-      - crypto-network
 
   # Main crypto data pipeline
   crypto-data-pipeline:
@@ -176,8 +84,6 @@ volumes:
   postgres_data:
   clickhouse_data:
   redis_data:
-  grafana_data:
-  airflow_logs:
 
 networks:
   crypto-network:

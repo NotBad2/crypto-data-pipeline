@@ -65,9 +65,9 @@ check_docker_compose() {
 create_directories() {
     print_info "Creating necessary directories..."
     
-    mkdir -p logs/scheduler logs/webserver logs/worker
-    mkdir -p data/postgres data/clickhouse data/grafana
-    mkdir -p plugins
+    mkdir -p logs
+    mkdir -p data/postgres data/clickhouse
+    mkdir -p src/dashboard
     
     print_status "Directories created"
 }
@@ -87,47 +87,14 @@ create_env_file() {
 build_images() {
     print_info "Building Docker images..."
     
-    echo "Building Airflow image..."
-    $COMPOSE_CMD build airflow-webserver
+    echo "Building main application image..."
+    $COMPOSE_CMD build crypto-data-pipeline
     
     if [ $? -eq 0 ]; then
         print_status "Docker images built successfully"
     else
         print_error "Failed to build Docker images"
         exit 1
-    fi
-}
-
-# Initialize Airflow database
-init_airflow() {
-    print_info "Initializing Airflow database..."
-    
-    $COMPOSE_CMD run --rm airflow-webserver airflow db init
-    
-    if [ $? -eq 0 ]; then
-        print_status "Airflow database initialized"
-    else
-        print_error "Failed to initialize Airflow database"
-        exit 1
-    fi
-}
-
-# Create Airflow admin user
-create_airflow_user() {
-    print_info "Creating Airflow admin user..."
-    
-    $COMPOSE_CMD run --rm airflow-webserver airflow users create \
-        --username admin \
-        --firstname Admin \
-        --lastname User \
-        --role Admin \
-        --email admin@example.com \
-        --password admin
-    
-    if [ $? -eq 0 ]; then
-        print_status "Airflow admin user created (admin/admin)"
-    else
-        print_warning "Airflow user might already exist"
     fi
 }
 
@@ -157,10 +124,6 @@ wait_for_services() {
     echo "Waiting for ClickHouse..."
     timeout 60 bash -c 'until curl -s http://localhost:8123/ >/dev/null; do sleep 2; done'
     
-    # Wait for Airflow
-    echo "Waiting for Airflow..."
-    timeout 120 bash -c 'until curl -s http://localhost:8080/health >/dev/null; do sleep 5; done'
-    
     print_status "All services are healthy"
 }
 
@@ -188,29 +151,16 @@ validate_services() {
     else
         print_error "Redis is not ready"
     fi
-    
-    # Check Airflow
-    if curl -s http://localhost:8080/health | grep -q "healthy"; then
-        print_status "Airflow is ready"
-    else
-        print_error "Airflow is not ready"
-    fi
-    
-    # Check Grafana
-    if curl -s http://localhost:3000/ &> /dev/null; then
-        print_status "Grafana is ready"
-    else
-        print_error "Grafana is not ready"
-    fi
 }
 
 # Show service URLs
 show_urls() {
     echo ""
     print_info "Service URLs:"
-    echo "🌐 Airflow Web UI:    http://localhost:8080 (admin/admin)"
-    echo "📊 Grafana:          http://localhost:3000 (admin/admin)"
     echo "🗄️  PostgreSQL:       localhost:5432 (crypto_user/crypto_pass)"
+    echo "⚡ ClickHouse:       http://localhost:8123"
+    echo "� Redis:            localhost:6379"
+    echo "📊 Streamlit:        Run 'streamlit run src/dashboard/crypto_app_unified.py'"
     echo "⚡ ClickHouse:       http://localhost:8123"
     echo "🔴 Redis:            localhost:6379"
     echo ""
@@ -230,15 +180,8 @@ main() {
     fi
     
     # Check if Airflow needs initialization
-    if ! $COMPOSE_CMD ps | grep -q airflow-webserver; then
-        print_info "First time setup detected"
-        start_services
-        sleep 10
-        init_airflow
-        create_airflow_user
-    else
-        start_services
-    fi
+    # Start services
+    start_services
     
     wait_for_services
     validate_services

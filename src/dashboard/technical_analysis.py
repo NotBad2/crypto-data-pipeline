@@ -41,7 +41,7 @@ def get_historical_data(coin_id="bitcoin", limit=100):
         return pd.DataFrame()
     
     try:
-        # Por enquanto, vamos usar os dados atuais e simular variação histórica
+        # Use current data and simulate historical variation for analysis
         query = """
         SELECT 
             coin_id,
@@ -60,7 +60,7 @@ def get_historical_data(coin_id="bitcoin", limit=100):
         conn.close()
         
         if result:
-            # Simular dados históricos para demonstração
+            # Simulate historical data for analysis visualization
             base_price = result[1]
             dates = pd.date_range(end=datetime.now(), periods=limit, freq='H')
             

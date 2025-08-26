@@ -8,11 +8,9 @@ font = "sans serif"
 [server]
 port = 8501
 headless = true
-enableCORS = false
-runOnSave = true
 enableCORS = true
+runOnSave = true
+address = "0.0.0.0"
 
 [browser]
 gatherUsageStats = false
-serverAddress = "localhost"
-serverPort = 8501
