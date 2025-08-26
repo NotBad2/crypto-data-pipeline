@@ -126,7 +126,7 @@ def main():
     docker-compose -f docker-compose-simple.yml up -d
     
     # Executar coleta de dados
-    python src/demo_working_integration.py
+    python src/ml/data_warehouse.py
     ```
     
     ### 2. Acessar os Dashboards:

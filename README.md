@@ -92,10 +92,23 @@ streamlit run src/dashboard/crypto_app_unified.py
 
 ### Production Deployment
 
-See **[DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)** for comprehensive deployment instructions including:
-- Streamlit Community Cloud setup
-- Docker containerization
-- Environment configuration
+| Platform | Deploy Time | Cost | Always-On |
+|----------|-------------|------|-----------|
+| **🚂 Railway** | ~5 min | ~$3/month | ✅ Yes |
+| **☁️ Streamlit Cloud** | ~10 min | Free | ✅ Yes |
+| **🐳 Docker/VPS** | ~15 min | Variable | ✅ Yes |
+
+#### ⚡ Quick Deploy to Railway
+```bash
+# 1. Push to GitHub
+git push origin main
+
+# 2. Connect to Railway
+# Visit: railway.app → Deploy from GitHub repo
+```
+See **[RAILWAY_DEPLOY.md](RAILWAY_DEPLOY.md)** for detailed Railway instructions.
+
+See **[DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)** for other deployment options.
 
 ## 📊 Data Pipeline
 

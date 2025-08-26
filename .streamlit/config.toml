@@ -6,10 +6,9 @@ textColor = "#262730"
 font = "sans serif"
 
 [server]
-port = 8501
 headless = true
-enableCORS = true
-runOnSave = true
+enableCORS = false
+port = 8080
 address = "0.0.0.0"
 
 [browser]
