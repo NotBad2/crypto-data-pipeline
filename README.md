@@ -7,7 +7,7 @@
 
 > **Advanced cryptocurrency data engineering pipeline with real-time analytics, machine learning predictions, and comprehensive technical analysis**
 
-**🌟 [Live Demo](https://crypto-data-pipeline.streamlit.app)** | **📊 [See Dashboard Screenshots](#screenshots)**
+**🌟 [Live Demo]( https://web-production-3681f.up.railway.app/)**
 
 ---
 
