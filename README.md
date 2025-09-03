@@ -7,7 +7,7 @@
 
 > **Advanced cryptocurrency data engineering pipeline with real-time analytics, machine learning predictions, and comprehensive technical analysis**
 
-**🌟 [Live Demo]( https://web-production-3681f.up.railway.app/)**
+**🌟 [Live Demo]( https://web-production-3681f.up.railway.app/)** 
 
 ---
 
@@ -114,7 +114,7 @@ See **[DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)** for other deployment options.
 
 ### Data Sources
 - **Primary**: CoinGecko API (rate-limited, cached)
-- **Coverage**: 250+ cryptocurrencies
+- **Coverage**: top 50 cryptocurrencies
 - **Historical Data**: 365-day rolling window
 - **Update Frequency**: 5-minute cache refresh
 
@@ -142,7 +142,7 @@ predictions (
 - **Training Strategy**: Rolling window with 365-day lookback
 - **Evaluation Metrics**: MAE, RMSE, MAPE, R²
 
-### Feature Set (20+ indicators)
+### Feature Set (19 indicators)
 ```python
 # Technical Indicators
 ['sma_7', 'sma_14', 'sma_30', 'ema_12', 'ema_26']
@@ -201,12 +201,6 @@ predictions (
 - **Monitoring**: Application performance tracking
 - **Scalability**: Cloud-ready architecture
 
-## 📊 Screenshots
-
-| Dashboard | Technical Analysis | ML Predictions |
-|-----------|-------------------|----------------|
-| ![Dashboard](docs/dashboard.png) | ![Analysis](docs/technical.png) | ![ML](docs/predictions.png) |
-
 ## 🔧 Configuration
 
 ### Environment Variables
@@ -255,23 +249,3 @@ This project showcases production-ready code patterns and welcomes contributions
 4. Push to branch (`git push origin feature/enhancement`)
 5. Open Pull Request
 
-## 📝 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## 🏆 Professional Context
-
-This project demonstrates proficiency in:
-- **Full-stack data engineering** pipeline development
-- **Production-grade machine learning** implementation
-- **Financial data analysis** and technical indicators
-- **Modern web application** development and deployment
-- **Cloud infrastructure** and DevOps practices
-
-Perfect for showcasing technical capabilities to potential employers in **fintech**, **data engineering**, and **quantitative analysis** roles.
-
----
-
-**⭐ Star this repository if it demonstrates valuable technical skills!**
-
-**📧 [Contact](mailto:your-email@domain.com) | 💼 [LinkedIn](https://linkedin.com/in/yourprofile) | 🐙 [More Projects](https://github.com/yourusername)**
